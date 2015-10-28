@@ -7,6 +7,9 @@ boolean mouse= false;
 
 int counter = 0;
 
+String title = "Pool Project Test";
+String name = "Dairo Paulino";
+
 
 // SETUP WINDOW SIZE
 void setup(){
@@ -38,6 +41,8 @@ void reset(){
    ball();
    action();
    middleWall();
+   messages();
+  
 
   }
   
@@ -103,11 +108,29 @@ void middleWall(){
  
   dogY += dogDY;
   if(dogY < top   || dogY > bottom) dogDY *= -1;
+  
+  aceX += aceDX;
+  if(aceX > right || aceX < middle) aceDX *= -1;
+ 
+  aceY += aceDY;
+  if(aceY < top   || aceY > bottom) aceDY *= -1;
+  
+  pigX += pigDX;
+  if(pigX > right || pigX < middle) pigDX *= -1;
+  
+  pigY += pigDY;
+  if(pigY < top   || pigY > bottom) pigDY *= -1;
     }
     
 
 }
 
+void messages (){
+fill(0);  
+text(title,280,30);
+text(name,50,35); 
+
+}
 void keyPressed(){  
   if ( key == 'w') {
     counter = counter + 1;
