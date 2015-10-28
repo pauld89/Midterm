@@ -6,7 +6,7 @@ boolean wall = true;
 boolean mouse= false;
 
 int counter = 0;
-
+String buttonReset = " R ";
 String title = "Pool Project Test";
 String name = "Dairo Paulino";
 
@@ -141,5 +141,7 @@ void keyPressed(){
       wall = false;
     }
   }
+  if (key=='r'){reset();}
+  
 }
     
