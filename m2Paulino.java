@@ -1,107 +1,76 @@
-float dogX,  dogY,  dogDX,  dogDY;          //++++ MODIFY THIS.  
-float aceX,  aceY,  aceDX,  aceDY;              //++++ MODIFY THIS.  
-float pigX,  pigY,  pigDX,  pigDY;      //++++ MODIFY THIS. 
-float west, east, north, south;
-
-
-
-//// OTHER GLOBALS:  strings, pool table, etc ////
-String title=  "CST112 MIDTERM EXAM";
-String news=   "Click any ball to reset it to right half of table.  (r resets all.)";
-String author=  "Dairo";
-float left=150, right=450, top=100, bottom=250;        // north Table boundaries
-float middle=250;
-boolean wall=true;
+float dogX, dogY, dogDX, dogDY;
+float aceX, aceY, aceDX, aceDY;
+float pigX, pigY, pigDX, pigDY;
+float top, bottom, left, right, middle;
+boolean wall = true;
 boolean mouse= false;
-int tableRed=150, tableGreen=250, tableBlue=150;      // green pool table
-int score=0,m=0,k=0;
 
 
-//// SETUP:  size and table
-void setup() {
-    size( 640, 480 );  
- }
-
+// SETUP WINDOW SIZE
+void setup(){
+  size(640, 480);
+  reset();
+  
+}
+// POSITIONS AND SPEED
 void reset(){
   top= height-305;              
   bottom= height-75;
   left= width/2-260;
   right=width/2+260;
   middle= left + (right-left)/2;
-  //ball positions
-  dogX= random(south, north);      dogY=random(west, east);
-  aceX= random(south, north);      aceY=random(west, east);
-  pigX= random(south, north);      pigY=random(west, east);
-  //ball speed
-  dogDX= random(-6,6);                    dogDY= random(-6,6);
-  aceDX= random(-6,6);                    aceDY= random(-6,6);
-  pigDX= random(-6,6);                    pigDY= random(-6,6);
-
-}
-
-//// NEXT FRAME:  table, bounce off walls, collisions, show all
-void draw() {
-  background( 250,250,200 );
-  rectMode( CORNERS );
-  table( left, top, right, bottom );
-  collisions();
-  show();
-  messages();
-}
-
-
-//// HANDLERS:  keys, click
-void keyPressed() {
-  if (key == 'q') { exit();  }
-    //++++ ADD YOUR OWN CODE HERE. ++++
-}
-
-
-//// SCENE:  draw the table with wall down the middle
-void table( float east, float north, float west, float south ) {
-  fill( tableRed, tableGreen, tableBlue );    // pool table
-  strokeWeight(20);
-  stroke( 127, 0, 0 );      // Brown walls
-  rect( east-20, north-20, west+20, south+20 );
-
-
-
-            //++++ MODIFY THIS CODE, as necessary. ++++
-
-  // Start with a WALL down the middle of the table! 
-  if (wall) {
-    float middle=  (east+west)/2;    
-    stroke( 0, 127, 0 );
-    line( middle,north+10, middle,south-10 );
-  }
-  stroke(0);
-  strokeWeight(1);
-}
-
-// ACTION:  bounce off walls, collisions
-
-
-  //// ADD YOUR OWN CODE HERE. ++++
-
-void collisions() {
-  float tmp;
+  //POSITIONS
+  dogX= random(middle, right);      dogY=random(top, bottom);
+  aceX= random(middle, right);      aceY=random(top, bottom);
+  pigX= random(middle, right);      pigY=random(top, bottom);
+  //SPEED
+  dogDX= random(-7,7);                    dogDY= random(-7,7);
+  aceDX= random(-7,7);                    aceDY= random(-7,7);
+  pigDX= random(-7,7);                    pigDY= random(-7,7);
   
-  if (dist(dogX, dogY, aceX, aceY) < 30){
-   tmp= dogDX;  dogDX = aceDX;  aceDX = tmp;
-   tmp= dogDY;  dogDY = aceDY;  aceDY= tmp;
 }
+  
+  void draw(){
+   background(#21FAEA); 
+   table();
+   ball();
+   action();
 
-}
-//// SHOW:  balls
-void show() {
-   fill( 250,30,0 );    ellipse( dogX+200,dogY+150, 30,30 ); 
-   fill(0,150,0);       ellipse( aceX+350,aceY+200, 30,30);
-   fill(0,0,100);       ellipse( pigX+400,pigY+100,30,30);  
-}
-
-
-void action(){   //bounce balls off walls
-
+  }
+  
+  //TABLE
+  void table(){
+    rectMode(CENTER);  
+    fill(#432805);
+    rect(width/2, height/2 + 50, 600, 300);     
+    fill(100, 200, 100);
+    rect(width/2, height/2 + 50, 550, 250);     
+    strokeWeight(20);                          
+    stroke(130, 0, 65);                       
+    
+    
+     //WALL
+    if(wall){                                 
+      line(width/2, top, width/2, bottom);
+    }
+    
+    strokeWeight(2);                          
+    stroke(0);
+    
+  }
+  // BALLS
+  void ball(){
+    fill(255, 0, 0);
+    ellipse(dogX, dogY, 30, 30);     //BALL
+    fill(0, 0, 240);
+    ellipse(aceX, aceY, 30, 30);     // BALL
+    fill(255, 205, 0);
+    ellipse(pigX, pigY, 30, 30);     //BALL
+    
+  }
+  // BOUNCEING BALLS
+  void action(){  
+  
   dogX += dogDX;
   if(dogX > right || dogX < left) dogDX *= -1;
  
@@ -120,22 +89,6 @@ void action(){   //bounce balls off walls
   pigY += pigDY;
   if(pigY < top   || pigY > bottom) pigDY *= -1;
   
-  
-   
   }
-
-
-
-
-
-void messages() {
-  fill(0);
-  text( title, width/3, 15 );
-  text( news, width/9, 30 );
-  text( author, 10, height-5 );
-
-  // Also, display the number of collisions.
-
-    //++++ ADD YOUR OWN CODE HERE. ++++
-
-}
+  
+    
