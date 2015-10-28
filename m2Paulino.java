@@ -5,6 +5,8 @@ float top, bottom, left, right, middle;
 boolean wall = true;
 boolean mouse= false;
 
+int counter = 0;
+
 
 // SETUP WINDOW SIZE
 void setup(){
@@ -35,6 +37,7 @@ void reset(){
    table();
    ball();
    action();
+   middleWall();
 
   }
   
@@ -47,19 +50,12 @@ void reset(){
     rect(width/2, height/2 + 50, 550, 250);     
     strokeWeight(20);                          
     stroke(130, 0, 65);                       
-    
-    
-     //WALL
-    if(wall){                                 
-      line(width/2, top, width/2, bottom);
-    }
-    
-    strokeWeight(2);                          
-    stroke(0);
-    
   }
+    
+
   // BALLS
-  void ball(){
+void ball(){
+    strokeWeight(0);
     fill(255, 0, 0);
     ellipse(dogX, dogY, 30, 30);     //BALL
     fill(0, 0, 240);
@@ -91,4 +87,36 @@ void reset(){
   
   }
   
+       //WALL
+void middleWall(){
+    if(wall){   
+      float middle = ( left + right ) / 2;
+      strokeWeight(1);                          
+      stroke(0);      
+      line(middle, top, middle, bottom);
+    
+    
+    //bouncing off the wall
+    
+    dogX += dogDX;
+  if(dogX > right || dogX < middle) dogDX *= -1;
+ 
+  dogY += dogDY;
+  if(dogY < top   || dogY > bottom) dogDY *= -1;
+    }
+    
+
+}
+
+void keyPressed(){  
+  if ( key == 'w') {
+    counter = counter + 1;
+    if(counter % 2 > 0){
+      wall = true;
+    }
+    else{
+      wall = false;
+    }
+  }
+}
     
